@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KnowYou | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-white">
+    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-5 py-6 sm:px-8">
+      <header class="flex items-center justify-between border-b border-white/10 pb-5">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500 text-lg font-bold">K</div>
+          <span class="text-lg font-semibold">KnowYou</span>
+        </div>
+
+        <div class="flex items-center gap-3 text-sm">
+          <span id="user-name" class="text-slate-300">Reader</span>
+          <button id="logout-button" type="button" class="rounded-lg border border-white/10 px-3 py-2 text-slate-300 transition hover:border-violet-400 hover:text-white">Log out</button>
+        </div>
+      </header>
+
+      <main class="flex flex-1 flex-col justify-center py-12">
+        <div class="mb-10">
+          <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-300">Your space</p>
+          <h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">What would you like to explore?</h1>
+        </div>
+
+        <nav aria-label="KnowYou sections" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <a href="/journals.html" aria-label="Open Journals" class="group flex min-h-44 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900 p-5 transition hover:-translate-y-1 hover:border-violet-400/60 hover:bg-slate-800">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-violet-300" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 5.5v16M8 7h8M8 11h8"/></svg>
+            <span class="text-lg font-medium">Journals <span class="text-slate-500 transition group-hover:text-violet-300">&#8594;</span></span>
+          </a>
+
+          <a href="/diary.html" aria-label="Open Diary" class="group flex min-h-44 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900 p-5 transition hover:-translate-y-1 hover:border-cyan-400/60 hover:bg-slate-800">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-cyan-300" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M8 7h8M8 11h6M8 15h8"/></svg>
+            <span class="text-lg font-medium">Diary <span class="text-slate-500 transition group-hover:text-cyan-300">&#8594;</span></span>
+          </a>
+
+          <a href="/gratitude.html" aria-label="Open Gratitude list" class="group flex min-h-44 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900 p-5 transition hover:-translate-y-1 hover:border-amber-400/60 hover:bg-slate-800">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-amber-300" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 8.7c0 5.5-8.8 11-8.8 11S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.5Z"/><path d="m8 10 2.2 2L16 7"/></svg>
+            <span class="text-lg font-medium">Gratitude list <span class="text-slate-500 transition group-hover:text-amber-300">&#8594;</span></span>
+          </a>
+
+          <a href="/goals.html" aria-label="Open Goals" class="group flex min-h-44 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900 p-5 transition hover:-translate-y-1 hover:border-emerald-400/60 hover:bg-slate-800">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-emerald-300" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/><path d="m16.5 7.5 3-3"/></svg>
+            <span class="text-lg font-medium">Goals <span class="text-slate-500 transition group-hover:text-emerald-300">&#8594;</span></span>
+          </a>
+
+          <a href="/analysis.html" aria-label="Open AI analysis" class="group flex min-h-44 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900 p-5 transition hover:-translate-y-1 hover:border-rose-400/60 hover:bg-slate-800 sm:col-span-2 lg:col-span-1">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-rose-300" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16"/><path d="m7 15 3-4 3 2 5-7"/><path d="M18 6h-3M18 6v3"/></svg>
+            <span class="text-lg font-medium">AI analysis <span class="text-slate-500 transition group-hover:text-rose-300">&#8594;</span></span>
+          </a>
+        </nav>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

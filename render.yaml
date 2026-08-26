@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: knowyou
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: waitress-serve --listen=*:10000 app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: knowyou-db
+          property: connectionString
+
+databases:
+  - name: knowyou-db
+    plan: free
+    databaseName: knowyou
+    user: knowyou_user
