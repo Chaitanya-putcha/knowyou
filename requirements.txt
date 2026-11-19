@@ -4,4 +4,4 @@ Flask-Migrate
 Flask-Login
 vaderSentiment
 gunicorn
-psycopg2-binary
+psycopg[binary]
