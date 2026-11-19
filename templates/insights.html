@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %} Insights | KnowYou {% endblock %}
+
+{% block content %}
+    <h1>Your insights</h1>
+
+    {% if insights.total == 0 %}
+        <p> No entries yet. <a href="{{ url_for('journal') }}"> Write your first one </a> and come back here.</p>
+    {% else %}
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">{{ insights.week_count}}</span>
+                <span>Entries this week</span>
+            </div>
+            <div class="stat">
+                {% if insights.week_avg is not none %}
+                <span class="stat-number">{{ MOOD_EMOJI[insights.week_label] }}</span>
+                <span>Mostly {{insights.week_label }} this week
+                    ({{ "%.2f" | format(insights.week_avg)}})
+                </span>
+                {% else %}
+                <span class="stat-number">-</span>
+                <span>No entries this week</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <h2> Mood over time</h2>
+        <div class="chart-box">
+            <canvas id="mood-chart"></canvas>
+        </div>
+
+        <h2>Mood breakdown</h2>
+        {% for row in insights.breakdown %}
+            <div class="bar-row">
+                <span class="bar-label">{{row.emoji}} {{row.label | capitalize}}</span>
+                <div class="bar-track">
+                    <div class="bar-fill fill-{{row.label}}" style="width: {{row.percent}}%"></div>
+                </div>
+                <span class="bar-value">{{ row.count }}</span>
+            </div>
+        {% endfor %}
+
+        {% if insights.emotion_breakdown %}
+            <h2>Emotions</h2>
+            {% for row in insights.emotion_breakdown %}
+            <div class="bar-row">
+                <span class="bar-label"> {{ row.emoji }} {{ row.label | capitalize}}</span>
+                <div class="bar-track">
+                    <div class="bar-fill fill-emotion" style="width: {{ row.percent }}%"></div>
+                </div>
+                <span class="bar-value">{{ row.count }}</span>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if insights.best_entry %}
+            <h2>Your brightest moment</h2>
+            <div class="entry">
+                <small>{{ insights.best_entry.created_at.strftime("%d %b %Y")}}</small>
+                <p>{{insights.best_entry.content}}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <h2>Suggestions for you</h2>
+    {% if insights.recommendations %}
+     <ul class="suggestions">
+        {% for tip in insights.recommendations %}
+            <li> {{ tip }}</li>
+        {% endfor %}
+     </ul>
+     {% else %}
+     <p>You're on track. Nothing to suggest right Now!</p>
+     {% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script>
+        const chartCanvas = document.getElementById("mood-chart");
+
+        if (chartCanvas) {
+            fetch("{{ url_for('mood_data') }}")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (points) {
+                    if (points.length === 0) {
+                        return;
+                    }
+
+                    new Chart(chartCanvas, {
+                        type: "line",
+                        data: {
+                            labels: points.map(function (p) { return p.date; }),
+                            datasets: [{
+                                label: "Mood score",
+                                data: points.map(function (p) { return p.score; }),
+                                borderColor: "#6b4fbb",
+                                backgroundColor: "rgba(107, 79, 187, 0.15)",
+                                fill: true,
+                                tension: 0.3,
+                            }],
+                        },
+                        options: {
+                            scales: {
+                                y: { min: -1, max: 1 },
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        afterLabel: function (context) {
+                                            const emotion = points[context.dataIndex].emotion;
+                                            return emotion ? "Emotion: " + emotion : "";
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    });
+                });
+        }
+    </script>
+{% endblock %}

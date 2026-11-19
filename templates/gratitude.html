@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Gratitude | Know You {% endblock %}
+
+{% block content %}
+    <h1>Gratitude</h1>
+    <p>What are you thankful for? You've added <strong>{{today_count}}</strong> today. Try for Three!</p>
+    <form method="POST" class="inline-add">
+        <input type="text" name="content" placeholder="I'm grateful for..." maxlength="300" required>
+        <button type="submit">Add</button>
+    </form>
+
+    {% if items %}
+    <ul class="item-list">
+        {% for item in items %}
+        <li class="item">
+            <div>
+                <span>{{item.content}}</span>
+                <small>{{item.created_at.strftime("%d %b %Y")}}</small>
+            </div>
+            <form method="POST"
+                action="{{url_for('delete_gratitude', item_id=item.id)}}"
+                onsubmit="return confirm('Remove this item?')">
+                <button type="submit" class="delete-btn">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Nothing here yet. Start with one small thing that went well today.</p>
+    {% endif %}
+{% endblock %}

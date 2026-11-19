@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale:1.0">
+        <title>{% block title %}KnowYou{% endblock %}</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+        <script>
+            try {
+                if (localStorage.getItem("theme") === "dark") {
+                    document.documentElement.classList.add("dark");
+                }
+            } catch (e) {}
+        </script>
+    </head>
+    <body>
+        <nav>
+            <a href="{{url_for('home')}}" class="logo">KnowYou</a>
+
+            <button class="icon-btn nav-toggle" id="nav-toggle"
+                aria-label="Open menu" aria-expanded="false">☰</button>
+            <div class="nav-links" id="nav-links">
+                {% if current_user.is_authenticated %}
+                <span class="nav-user">Hi, {{current_user.username}}</span>
+                <a href="{{url_for('journal')}}">Journal</a>
+                <a href="{{url_for('gratitude')}}">Gratitude</a>
+                <a href="{{url_for('goals')}}">Goals</a>
+                <a href="{{url_for('insights')}}">Insights</a>
+                <a href="{{url_for('logout')}}">Log out</a>
+                {% else %}
+                <a href="{{url_for('login')}}">Log in</a>
+                <a href="{{url_for('register')}}">Sign up</a>
+                {% endif %}
+                <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </div>
+        </nav>
+
+        <main>
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+            <script src="{{url_for('static', filename='script.js')}}"></script>
+            {% block scripts %} {% endblock %}
+        </main>
+    </body>
+</html>
